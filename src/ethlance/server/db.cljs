@@ -61,7 +61,6 @@
      [:user/status :varchar]
      ;; PK
      [(sql/call :primary-key :user/address)]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :Candidate
@@ -75,7 +74,6 @@
      [(sql/call :primary-key :user/address)]
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :Employer
@@ -87,7 +85,6 @@
      [(sql/call :primary-key :user/address)]
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :Arbiter
@@ -101,7 +98,6 @@
      [(sql/call :primary-key :user/address)]
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :UserLanguage
@@ -112,7 +108,6 @@
      [(sql/call :primary-key :user/address :language/id)]
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :Category
@@ -120,7 +115,6 @@
     [[:category/id :varchar not-nil]
      ;; PK
      [(sql/call :primary-key :category/id)]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :Skill
@@ -128,7 +122,6 @@
     [[:skill/id :varchar not-nil]
      ;; PK
      [(sql/call :primary-key :skill/id)]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :ArbiterCategory
@@ -140,7 +133,6 @@
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :category/id) (sql/call :references :Category :category/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :ArbiterSkill
@@ -152,7 +144,6 @@
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :skill/id) (sql/call :references :Skill :skill/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :CandidateCategory
@@ -164,7 +155,6 @@
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :category/id) (sql/call :references :Category :category/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :CandidateSkill
@@ -176,7 +166,6 @@
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :skill/id) (sql/call :references :Skill :skill/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :Job
@@ -189,22 +178,14 @@
      [:job/date-created :unsigned :integer]
      [:job/date-published :unsigned :integer]
      [:job/date-updated :unsigned :integer]
-     [:job/estimated-length :unsigned :integer]
-     [:job/required-availability :integer]
-     [:job/bid-option :integer]
      [:job/expertise-level :integer]
-     [:job/number-of-candidates :integer]
-     [:job/invitation-only? :integer]
      [:job/token address]
      [:job/token-version :integer]
      [:job/reward :unsigned :integer]
-     [:job/date-deadline :unsigned :integer]
-     [:job/platform :varchar]
      [:job/web-reference-url :varchar]
      [:job/language-id :varchar]
      ;; PK
      [(sql/call :primary-key :job/id)]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :EthlanceJob
@@ -247,7 +228,6 @@
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :job/id) (sql/call :references :Job :job/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :JobSkill
@@ -259,7 +239,6 @@
      ;; FKs
      [(sql/call :foreign-key :job/id) (sql/call :references :Job :job/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :skill/id) (sql/call :references :Skill :skill/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :JobArbiter
@@ -271,10 +250,10 @@
      [:job-arbiter/status :varchar]
      ;; PK
      [(sql/call :primary-key :job/id :user/address)]
+
      ;; FKs
      [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :job/id) (sql/call :references :Job :job/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
    {:table-name :JobFile
@@ -285,7 +264,6 @@
      ;; FKs
      [(sql/call :foreign-key :job/id) (sql/call :references :Job :job/id) (sql/raw "ON DELETE CASCADE")]
      ]
-    :id-keys [:job/id :job/file-id]
     :list-keys []}
 
    {:table-name :JobStory
@@ -297,6 +275,8 @@
      [:job-story/date-updated :unsigned :integer]
      [:job-story/invitation-message-id :integer]
      [:job-story/proposal-message-id :integer]
+     [:job-story/raised-dispute-message-id :integer]
+     [:job-story/resolved-dispute-message-id :integer]
      [:job-story/proposal-rate :integer]
      [:job-story/proposal-rate-currency-id :varchar]
      ;; PK
@@ -306,19 +286,33 @@
      [(sql/call :foreign-key :job/id) (sql/call :references :Job :job/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :job-story/invitation-message-id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :job-story/proposal-message-id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
-   {:table-name :JobStoryCandidate
+   {:table-name :EthlanceJobStory
     :table-columns
     [[:job-story/id :integer]
+     [:ethlance-job-story/invitation-message-id :integer]
+     [:ethlance-job-story/proposal-message-id :integer]
+     [:ethlance-job-story/proposal-rate :integer]
+     [:ethlance-job-story/proposal-rate-currency-id :varchar]
+     [:ethlance-job-story/assigned-candidate :varchar]
+
+     ;; PK
+     [(sql/call :primary-key :job-story/id)]
+
+     ;; FKs
+     [(sql/call :foreign-key :job-story/id) (sql/call :references :JobStory :job-story/id) (sql/raw "ON DELETE CASCADE")]]
+    }
+
+   {:table-name :EthlanceJobCandidate
+    :table-columns
+    [[:ethlance-job-story/id :integer]
      [:user/address address]
      ;; PK
-     [(sql/call :primary-key :job-story/id :user/address)]
+     [(sql/call :primary-key :ethlance-job-story/id :user/address)]
      ;; FKs
-     [(sql/call :foreign-key :job-story/id) (sql/call :references :JobStory :job-story/id) (sql/raw "ON DELETE CASCADE")]
-     [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
+     [(sql/call :foreign-key :ethlance-job-story/id) (sql/call :references :EthlanceJob :ethlance-job-story/id) (sql/raw "ON DELETE CASCADE")]
+     [(sql/call :foreign-key :user/address) (sql/call :references :Candidate :user/address) (sql/raw "ON DELETE CASCADE")]]
     :list-keys []}
 
    {:table-name :JobStoryMessage
@@ -330,24 +324,9 @@
      ;; FKs
      [(sql/call :foreign-key :job-story/id) (sql/call :references :JobStory :job-story/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
-   {:table-name :Feedback
-    :table-columns
-    [[:job-story/id :integer]
-     [:message/id :integer]
-     [:feedback/rating :integer]
-     ;; PK
-     [(sql/call :primary-key :job-story/id :message/id)]
-     ;; FKs
-     [(sql/call :foreign-key :job-story/id) (sql/call :references :JobStory :job-story/id) (sql/raw "ON DELETE CASCADE")]
-
-     [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
-    :list-keys []}
-
-   {:table-name :JobStoryInvoice
+   {:table-name :JobStoryInvoiceMessage
     :table-columns
     [
      [:job-story/id :integer]
@@ -365,10 +344,24 @@
      ;; FKs
      [(sql/call :foreign-key :job-story/id) (sql/call :references :JobStory :job-story/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys []
     :list-keys []}
 
-   {:table-name :Dispute
+   {:table-name :JobStoryFeedbackMessage
+    :table-columns
+    [[:job-story/id :integer]
+     [:message/id :integer]
+     [:feedback/rating :integer]
+     [:user/address :varchar]
+
+     ;; PK
+     [(sql/call :primary-key :job-story/id :message/id)]
+     ;; FKs
+     [(sql/call :foreign-key :job-story/id) (sql/call :references :JobStory :job-story/id) (sql/raw "ON DELETE CASCADE")]
+     [(sql/call :foreign-key :user/address) (sql/call :references :User :user/address) (sql/raw "ON DELETE CASCADE")]
+     [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
+    :list-keys []}
+
+   #_{:table-name :JobStoryDisputeMessage
     :table-columns
     [[:job/id :integer]
      [:job-story/id :integer]
@@ -384,8 +377,7 @@
      [(sql/call :foreign-key :dispute/raised-message-id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :dispute/resolved-message-id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]
      ]
-    :id-keys []
-    :list-keys []}
+      :list-keys []}
 
    {:table-name :Message
     :table-columns
@@ -399,7 +391,6 @@
      [(sql/call :primary-key :message/id)]
      ;; FKs
      [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys [:message/id]
     :list-keys []}
 
    {:table-name :DirectMessage
@@ -411,7 +402,7 @@
      [(sql/call :primary-key :message/id)]
      ;; FKs
      [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys [:message/id]
+
     :list-keys []}
 
    {:table-name :MessageFile
@@ -424,7 +415,6 @@
      ;; FKs
      [(sql/call :foreign-key :message/id) (sql/call :references :Message :message/id) (sql/raw "ON DELETE CASCADE")]
      [(sql/call :foreign-key :file/id) (sql/call :references :File :file/id) (sql/raw "ON DELETE CASCADE")]]
-    :id-keys [:message/id :file/id]
     :list-keys []}
 
    {:table-name :File
@@ -437,7 +427,6 @@
      ;; PK
      [(sql/call :primary-key :file/id)]
      ]
-    :id-keys []
     :list-keys []}])
 
 
@@ -476,8 +465,12 @@
   "Retrieve the given table schema defined by `table-name` from the
   database schema, or nil."
   [table-name]
-  (-> ($/select [$/ALL #(= (:table-name %) table-name)] database-schema)
-      first))
+  (let [schema (-> ($/select [$/ALL #(= (:table-name %) table-name)] database-schema)
+                   first)
+        id-keys (->> schema
+                     :table-columns
+                     (some (fn [[{:keys [name args]}]] (when (= name :primary-key) args))))]
+    (assoc schema :id-keys id-keys)))
 
 
 (defn- get-table-column-names
@@ -513,10 +506,18 @@
   [table-name item]
   (if-let [table-schema (get-table-schema table-name)]
     (let [table-column-names (get-table-column-names table-name)
-          item (select-keys item table-column-names)]
-      (not-empty (db/run! {:insert-into table-name
-                           :columns (keys item)
-                           :values [(vals item)]})))
+          item (select-keys item table-column-names)
+          statement {:insert-into table-name
+                     :columns (keys item)
+                     :values [(->> (vals item)
+                                   (map #(if (keyword? %) (name %) %)))]}]
+      (not-empty (try
+                   (db/run! statement)
+                   (catch js/Error e
+                     (log/error "Error executing insert statement" {:error e
+                                                                    :statement statement})
+                     (print-db)
+                     ))))
     (log/error (str/format "Unable to find table schema for '%s'" table-name))))
 
 
@@ -535,13 +536,20 @@
       (assert (not (empty? (:id-keys table-schema)))
               (str/format ":id-keys for table schema '%s' is required for updating rows." table-name))
       (let [table-column-names (get-table-column-names table-name)
-            item (select-keys item table-column-names)]
-        (not-empty (db/run! {:update table-name
-                             :set item
-                             :where (concat
-                                     [:and]
-                                     (for [id-key (:id-keys table-schema)]
-                                       [:= id-key (get item id-key)]))}))))
+            item (select-keys item table-column-names)
+            statement {:update table-name
+                       :set item
+                       :where (concat
+                               [:and]
+                               (for [id-key (:id-keys table-schema)]
+                                 [:= id-key (get item id-key)]))}]
+        (not-empty (try
+                     (db/run! statement)
+                     (catch js/Error e
+                       (log/error "Error executing update statement" {:error e
+                                                                      :statement statement})
+                       (print-db)
+                       (throw e))))))
     (log/error (str/format "Unable to find table schema for '%s'" table-name))))
 
 
@@ -646,8 +654,6 @@
     (update-row! :Job (assoc job-data :job/id job-id))))
 
 (defn add-job-story-invoice [invoice]
-(prn "INVOICE " invoice)
-
   (insert-row! :JobStoryInvoice invoice))
 
 (defn update-job-story-invoice [invoice]
@@ -656,14 +662,43 @@
 (defn add-message
   "Inserts a Message. Returns autoincrement id"
   [message]
+  (println "Inserting message " message)
   (insert-row! :Message message)
-  (get-last-insert-id))
+  (let [msg-id (get-last-insert-id)]
+    (case (:message/type message)
+      :job-story-message
+      (do
+        (insert-row! :JobStoryMessage (assoc message
+                                             :message/id msg-id))
+        (case (:job-story-message/type message)
+          :raise-dispute (update-row! :JobStory {:job-story/id (:job-story/id message)
+                                                 :job-story/raised-dispute-message-id msg-id})
+          :resolve-dispute (update-row! :JobStory {:job-story/id (:job-story/id message)
+                                                   :job-story/resolved-dispute-message-id msg-id})
+          :proposal (update-row! :EthlanceJobStory {:job-story/id (:job-story/id message)
+                                                    :ethlance-job-story/proposal-message-id msg-id})
+          :invitation (update-row! :EthlanceJobStory {:job-story/id (:job-story/id message)
+                                                      :ethlance-job-story/invitation-message-id msg-id})
+          :invoice (insert-row! :JobStoryInvoiceMessage message)
+          :feedback  (insert-row! :JobStoryFeedbackMessage message)
+          nil))
+
+      :direct-message
+      (insert-row! :DirectMessage message))))
 
 (defn add-job-story
   "Inserts a JobStory. Returns autoincrement id"
   [job-story]
   (insert-row! :JobStory job-story)
   (get-last-insert-id))
+
+(defn add-ethlance-job-story
+  "Inserts a EthlanceJobStory. Returns autoincrement id"
+  [ethlance-job-story]
+  (insert-row! :JobStory ethlance-job-story)
+  (let [job-story-id (get-last-insert-id)]
+    (insert-row! :EthlanceJobStory (assoc ethlance-job-story
+                                          :job-story/id job-story-id))))
 
 (defn add-job-story-message [job-story-message]
   (insert-row! :JobStoryMessage job-story-message))
@@ -674,6 +709,10 @@
                   (get-last-insert-id))]
     (insert-row! :MessageFile {:message/id message-id
                                :file/id file-id})))
+
+(defn add-ethlance-job-candidate [ethlance-job-id user-address]
+  (insert-row! :EthlanceJobCandidate {:ethlance-job/id ethlance-job-id
+                                      :user/address user-address}))
 
 (defn get-job-story-id-by-standard-bounty-id [bounty-id]
   (:id (db/get {:select [[:js.job-story/id :id]]
